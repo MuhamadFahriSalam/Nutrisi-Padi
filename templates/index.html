@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Konsultasi Kekurangan Nutrisi pada Tanaman Padi</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            margin-top: 20px;
+        }
+        #results img {
+            max-width: 100px;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Konsultasi Kekurangan Nutrisi pada Tanaman Padi</h1>
+
+        <form id="image-form" class="card p-4" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="image">Unggah Gambar Daun:</label>
+                <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Deteksi Kekurangan Nutrisi</button>
+        </form>
+
+        <h2 class="text-center mt-5">Hasil:</h2>
+        <div id="results" class="card p-4 text-center"></div>
+    </div>
+
+    <script>
+        $("#image-form").on("submit", function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            const imageFile = $("#image")[0].files[0];
+            const imageURL = URL.createObjectURL(imageFile);
+
+            $.ajax({
+                url: "/predict",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $("#results").empty();
+                    $("#results").append(
+                        `<img src="${imageURL}" class="img-thumbnail" alt="Preview Gambar"><hr>` +
+                        `<h5><strong>Defisiensi Nutrisi:</strong> ${data["Defisiensi Nutrisi"]}</h5>` +
+                        `<p><strong>Metode Pengendalian:</strong> ${data["Metode Pengendalian"]}</p>` +
+                        `<p><strong>Produk Nutrisi yang Direkomendasikan:</strong> ${data["Produk Nutrisi yang Direkomendasikan"]}</p>`
+                    );
+                },
+                error: function () {
+                    $("#results").empty();
+                    $("#results").append('<p class="text-danger">Gagal memproses gambar. Pastikan format gambar dan koneksi server benar.</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+Defisiensi Nutrisi,Metode Pengendalian,Produk Nutrisi yang Direkomendasikan
+Normal,Tidak perlu tindakan,Pertahankan nutrisi seimbang
+Kekurangan Nitrogen (N),Gunakan pupuk urea,Petroganik Urea Plus
+Kekurangan Kalium (K),Gunakan pupuk KCl,Kalium Mutiara 60%
+Kekurangan Fosfor (P),Gunakan pupuk TSP,Superfosfat
+Kekurangan Magnesium (Mg),Gunakan pupuk dolomit,Dolomit Granular
+Kekurangan Kalsium (Ca),Gunakan kapur pertanian,Kapur Dolomit
+Kekurangan Sulfur (S),Gunakan pupuk sulfat,Ammonium Sulfat
+Kekurangan Zat Besi (Fe),Gunakan pupuk chelate besi,Ferro Chelate
+Kekurangan Mangan (Mn),Gunakan pupuk chelate mangan,Mangan Chelate
+Kekurangan Seng (Zn),Gunakan pupuk chelate seng,Zinc Chelate
+Kekurangan Boron (B),Gunakan pupuk boron,Boron Chelate
+Kekurangan Tembaga (Cu),Gunakan pupuk chelate tembaga,Copper Chelate
+Kekurangan Molibdenum (Mo),Gunakan pupuk molibdenum,Molybdenum Chelate
+Kekurangan Klorofil (Chlorophyll),Gunakan pupuk hijau,Green Leaf Fertilizer
+Kekurangan Asam Amino (Amino Acid),Gunakan pupuk asam amino,Amino Acid Fertilizer
+Kekurangan Zat Organik (Organic Matter),Gunakan pupuk organik,Organic Fertilizer
+Kekurangan Air (Water Stress),Lakukan irigasi,Drip Irrigation System
+Kekurangan Cahaya (Light Stress),Atur penanaman,Proper Plant Spacing
+Kekurangan Suhu (Temperature Stress),Lakukan penyesuaian suhu,Shade Netting
+Kekurangan pH Tanah (Soil pH),Lakukan pengapuran,Soil Lime Application
+Kekurangan Mikroba (Microbial Deficiency),Terapkan pupuk hayati,Biofertilizer
+Kekurangan Unsur Mikro (Micronutrient Deficiency),Gunakan pupuk mikro,Micronutrient Fertilizer
+Kekurangan Unsur Makro (Macronutrient Deficiency),Gunakan pupuk makro,Macronutrient Fertilizer
+Kekurangan Unsur Hara (Nutrient Deficiency),Lakukan analisis tanah,Soil Nutrient Analysis
+Kekurangan Unsur Hara Spesifik (Specific Nutrient Deficiency),
+Lakukan pemupukan spesifik,Targeted Fertilization
