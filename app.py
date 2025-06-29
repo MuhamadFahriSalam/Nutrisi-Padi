@@ -10,16 +10,17 @@ app = Flask(__name__)
 os.makedirs('static', exist_ok=True)
 
 # Load model dan label
-model = load_model("rice_leaf_diseases.keras") # Pastikan model sudah dilatih dan disimpan sebelumnya
+model = load_model("rice_plant_lacks_dataset.keras")
 with open("label_map.json") as f:
     label_map = json.load(f)
 idx_to_label = {v: k for k, v in label_map.items()}
 
-# Load CSV data deskripsi defisiensi
-df = pd.read_csv('kekurangan_nutrisi_padi_bersih.csv').reset_index(drop=True) # Pastikan file CSV ada di direktori yang sama dan formatnya
+# Load deskripsi CSV
+df = pd.read_csv('kekurangan_nutrisi_padi_bersih.csv').reset_index(drop=True)
 
-# Mapping hasil label model ke nama defisiensi di CSV
+# Mapping label ke deskripsi
 label_to_defisiensi = {
+    # Nutrisi
     "Nitrogen(N)": "Kekurangan Nitrogen (N)",
     "Phosphorus(P)": "Kekurangan Fosfor (P)",
     "Potassium(K)": "Kekurangan Kalium (K)",
@@ -44,12 +45,17 @@ label_to_defisiensi = {
     "Macronutrient Deficiency": "Kekurangan Unsur Makro (Macronutrient Deficiency)",
     "Nutrient Deficiency": "Kekurangan Unsur Hara (Nutrient Deficiency)",
     "Specific Nutrient Deficiency": "Kekurangan Unsur Hara Spesifik (Specific Nutrient Deficiency)",
-    "Normal": "Normal"
+    "Normal": "Normal",
+
+    # Penyakit
+    "Brown-spot": "Penyakit Bercak Coklat (Brown Spot)",
+    "Bacterial-leaf-blight": "Penyakit Hawar Daun Bakteri (BLB)",
+    "Leaf-smut": "Penyakit Gosong Daun (Leaf Smut)"
 }
 
 @app.route('/')
 def index():
-    return render_template('index.html') # Halaman utama untuk mengunggah gambar
+    return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -62,29 +68,25 @@ def predict():
     img_file.save(filepath)
 
     try:
-        # Preprocessing gambar
         img = image.load_img(filepath, target_size=(224, 224))
         img_array = image.img_to_array(img) / 255.0
         img_array = np.expand_dims(img_array, axis=0)
 
-        # Prediksi dengan model
         prediction = model.predict(img_array)
         predicted_index = np.argmax(prediction)
         label_pred = idx_to_label[predicted_index]
 
-        # Mapping ke defisiensi di CSV
         defisiensi_key = label_to_defisiensi.get(label_pred, None)
         if defisiensi_key:
             row = df[df['Defisiensi Nutrisi'] == defisiensi_key]
         else:
             row = pd.DataFrame()
 
-        # Ambil data hasil atau fallback
         if not row.empty:
             result = row.iloc[0].to_dict()
         else:
             result = {
-                'Defisiensi Nutrisi': label_pred,
+                'Defisiensi Nutrisi': defisiensi_key or label_pred,
                 'Metode Pengendalian': 'Tidak ditemukan.',
                 'Produk Nutrisi yang Direkomendasikan': 'Tidak ditemukan.'
             }
