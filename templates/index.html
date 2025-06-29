@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Konsultasi Kekurangan Nutrisi pada Tanaman Padi</title>
+    <title>Deteksi Daun Padi: Nutrisi & Penyakit</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -15,7 +15,7 @@
             margin-top: 20px;
         }
         #results img {
-            max-width: 100px;
+            max-width: 150px;
             height: auto;
             margin-top: 20px;
             border-radius: 10px;
@@ -24,18 +24,21 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center">Konsultasi Kekurangan Nutrisi pada Tanaman Padi</h1>
+        <h1 class="text-center">Deteksi Kekurangan Nutrisi & Penyakit Daun Padi</h1>
 
         <form id="image-form" class="card p-4" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="image">Unggah Gambar Daun:</label>
+                <label for="image"><strong>Unggah Gambar Daun Padi:</strong></label>
                 <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required />
             </div>
-            <button type="submit" class="btn btn-primary">Deteksi Kekurangan Nutrisi</button>
+            <button type="submit" class="btn btn-success btn-block">Lakukan Deteksi</button>
         </form>
 
-        <h2 class="text-center mt-5">Hasil:</h2>
-        <div id="results" class="card p-4 text-center"></div>
+        <div id="results" class="card p-4 text-center d-none">
+            <h4 class="mb-3">Hasil Deteksi:</h4>
+            <div id="preview"></div>
+            <div id="output" class="mt-3"></div>
+        </div>
     </div>
 
     <script>
@@ -52,17 +55,18 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    $("#results").empty();
-                    $("#results").append(
-                        `<img src="${imageURL}" class="img-thumbnail" alt="Preview Gambar"><hr>` +
-                        `<h5><strong>Defisiensi Nutrisi:</strong> ${data["Defisiensi Nutrisi"]}</h5>` +
+                    $("#results").removeClass("d-none");
+                    $("#preview").html(`<img src="${imageURL}" class="img-thumbnail" alt="Gambar Daun">`);
+                    $("#output").html(
+                        `<h5><strong>Hasil Deteksi:</strong> ${data["Defisiensi Nutrisi"]}</h5>` +
                         `<p><strong>Metode Pengendalian:</strong> ${data["Metode Pengendalian"]}</p>` +
-                        `<p><strong>Produk Nutrisi yang Direkomendasikan:</strong> ${data["Produk Nutrisi yang Direkomendasikan"]}</p>`
+                        `<p><strong>Produk Rekomendasi:</strong> ${data["Produk Nutrisi yang Direkomendasikan"]}</p>`
                     );
                 },
                 error: function () {
-                    $("#results").empty();
-                    $("#results").append('<p class="text-danger">Gagal memproses gambar. Pastikan format gambar dan koneksi server benar.</p>');
+                    $("#results").removeClass("d-none");
+                    $("#preview").html("");
+                    $("#output").html('<p class="text-danger">Gagal memproses gambar. Periksa format file dan server.</p>');
                 }
             });
         });
